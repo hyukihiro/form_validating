@@ -1,0 +1,231 @@
+{
+  "name": "aaa",
+  "version": "1.0.0",
+  "description": "aaaa web development.",
+  "main": "index.js",
+  "repository": "aaa",
+  "author": "aaaa",
+  "license": "MIT",
+  "private": true,
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "browsers": [
+              "last 2 versions",
+              "safari >= 7"
+            ]
+          }
+        }
+      ]
+    ],
+    "plugins": [
+      "transform-class-properties"
+    ]
+  },
+  "stylelint": {
+    "extends": "stylelint-config-recommended",
+    "rules": {
+      "block-closing-brace-empty-line-before": null,
+      "block-closing-brace-newline-after": null,
+      "block-closing-brace-newline-before": null,
+      "block-closing-brace-space-before": null,
+      "block-opening-brace-newline-after": null,
+      "block-opening-brace-space-after": null,
+      "block-opening-brace-space-before": null,
+      "declaration-block-semicolon-newline-after": null,
+      "declaration-block-semicolon-space-after": null,
+      "declaration-block-semicolon-space-before": null,
+      "declaration-block-trailing-semicolon": null,
+      "at-rule-no-unknown": null,
+      "selector-pseudo-class-no-unknown": [
+        true,
+        {
+          "ignorePseudoClasses": [
+            "global"
+          ]
+        }
+      ]
+    }
+  },
+  "jest": {
+    "preset": "jest-puppeteer"
+  },
+  "eslintConfig": {
+    "parser": "babel-eslint",
+    "extends": [
+      "prettier"
+    ],
+    "env": {
+      "es6": true,
+      "browser": true,
+      "node": true
+    },
+    "plugins": [
+      "prettier",
+      "promise",
+      "compat"
+    ],
+    "rules": {
+      "arrow-body-style": "off",
+      "arrow-parens": [
+        "off"
+      ],
+      "class-methods-use-this": "off",
+      "compat/compat": "error",
+      "consistent-return": "off",
+      "comma-dangle": [
+        2,
+        "never"
+      ],
+      "default-case": "off",
+      "generator-star-spacing": "off",
+      "import/no-extraneous-dependencies": "off",
+      "import/no-named-as-default": "off",
+      "import/prefer-default-export": "off",
+      "new-cap": "off",
+      "no-console": "off",
+      "no-plusplus": "off",
+      "no-use-before-define": "off",
+      "no-multi-assign": "off",
+      "no-param-reassign": "off",
+      "no-unused-expressions": "off",
+      "no-useless-computed-key": "off",
+      "promise/param-names": "error",
+      "promise/always-return": "error",
+      "promise/catch-or-return": "error",
+      "promise/no-native": "off",
+      "no-underscore-dangle": "off",
+      "prettier/prettier": "error",
+      "quotes": [
+        2,
+        "single"
+      ]
+    },
+    "parserOptions": {
+      "ecmaVersion": 2018,
+      "sourceType": "module",
+      "allowImportExportEverywhere": true,
+      "ecmaFeatures": {
+        "experimentalObjectRestSpread": false
+      }
+    },
+    "settings": {
+      "polyfills": [
+        "promises"
+      ]
+    }
+  },
+  "eslintIgnore": [
+    "node_modules"
+  ],
+  "scripts": {
+    "start": "concurrently --kill-others --raw \"yarn run dev\"",
+    "dev": "cross-env NODE_ENV=development nodemon --require @babel/register server.js --watch server.js --port 9000",
+    "preprod": "rimraf ./dist",
+    "prod": "cross-env NODE_ENV=prod gulp pug:prod && gulp styles:prod && cross-env NODE_ENV=prod gulp js:prod && gulp build",
+    "postprod": "rimraf ./dist/assets/images/sprites",
+    "server": "browser-sync start -s 'dist'",
+    "lint": "gulp pug:lint && gulp stylelint"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.1.5",
+    "@babel/core": "^7.1.5",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
+    "@babel/polyfill": "^7.0.0",
+    "@babel/preset-env": "^7.1.5",
+    "@babel/preset-stage-0": "^7.0.0",
+    "@babel/register": "^7.0.0",
+    "autoprefixer": "^9.3.1",
+    "axios": "^0.18.0",
+    "babel-eslint": "^10.0.1",
+    "babel-jest": "^23.6.0",
+    "babel-loader": "^8.0.4",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "browser-sync": "^2.26.3",
+    "chalk": "^2.4.1",
+    "concurrently": "^4.0.1",
+    "cross-env": "^5.2.0",
+    "css-mqpacker": "^7.0.0",
+    "csswring": "^7.0.0",
+    "doiuse": "^4.2.0",
+    "eslint": "^5.8.0",
+    "eslint-config-prettier": "^3.1.0",
+    "eslint-formatter-pretty": "^1.3.0",
+    "eslint-import-resolver-webpack": "^0.10.1",
+    "eslint-loader": "^2.1.1",
+    "eslint-plugin-compat": "^2.6.3",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-prettier": "^3.0.0",
+    "eslint-plugin-promise": "^4.0.1",
+    "friendly-errors-webpack-plugin": "^1.7.0",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^8.0.0",
+    "gulp-cached": "^1.1.1",
+    "gulp-changed": "^3.2.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-debug": "^4.0.0",
+    "gulp-if": "^2.0.2",
+    "gulp-load-plugins": "^1.5.0",
+    "gulp-minify-html": "^1.0.6",
+    "gulp-newer": "^1.4.0",
+    "gulp-notify": "^3.2.0",
+    "gulp-plumber": "^1.2.0",
+    "gulp-postcss": "^8.0.0",
+    "gulp-pug": "^4.0.1",
+    "gulp-pug-linter": "^1.1.0",
+    "gulp-rename": "^1.4.0",
+    "gulp-size": "^3.0.0",
+    "gulp-sourcemaps": "^2.6.4",
+    "gulp-util": "^3.0.8",
+    "husky": "^1.1.3",
+    "jest": "^23.6.0",
+    "jest-puppeteer": "^3.5.0",
+    "nodemon": "^1.18.6",
+    "nyc": "^13.1.0",
+    "pixrem": "^4.0.1",
+    "postcss": "^7.0.5",
+    "postcss-apply": "^0.11.0",
+    "postcss-assets": "^5.0.0",
+    "postcss-browser-reporter": "^0.5.0",
+    "postcss-cli": "^6.0.1",
+    "postcss-custom-media": "^7.0.7",
+    "postcss-custom-properties": "^8.0.9",
+    "postcss-easings": "^2.0.0",
+    "postcss-easy-import": "^3.0.0",
+    "postcss-flexbugs-fixes": "^4.1.0",
+    "postcss-for": "^2.1.1",
+    "postcss-import": "^12.0.1",
+    "postcss-loader": "^3.0.0",
+    "postcss-media-minmax": "^4.0.0",
+    "postcss-mixins": "^6.2.0",
+    "postcss-nested": "^4.1.0",
+    "postcss-nesting": "^7.0.0",
+    "postcss-random": "^1.0.9",
+    "postcss-reporter": "^6.0.0",
+    "postcss-short": "^5.0.0",
+    "postcss-sorting": "^4.0.0",
+    "postcss-sprites": "^4.2.1",
+    "prettier": "^1.15.1",
+    "pug": "^2.0.3",
+    "puglint-stylish": "^0.1.1",
+    "regenerator-runtime": "^0.12.1",
+    "rimraf": "^2.6.2",
+    "stylelint": "^9.7.1",
+    "stylelint-config-recommended": "^2.1.0",
+    "sugarss": "^2.0.0",
+    "terser-webpack-plugin": "^1.1.0",
+    "uglifyjs-webpack-plugin": "^2.0.1",
+    "webpack": "^4.25.1",
+    "webpack-bundle-analyzer": "^3.0.3",
+    "webpack-dev-middleware": "^3.4.0",
+    "webpack-hot-middleware": "^2.24.3",
+    "webpack-merge": "^4.1.4"
+  },
+  "dependencies": {
+    "ress": "^1.2.2"
+  }
+}

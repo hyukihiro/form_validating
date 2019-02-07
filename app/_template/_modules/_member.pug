@@ -1,0 +1,148 @@
+//- メンバー区分のテンプレートが入ります
+- for (var i = 0; i < 9; i++)
+  - var num = i + 2;
+  .family-member
+    h4.title メンバー#{num}
+    .form
+      .form-module
+        .form-content.is-1of2
+          label 姓:
+          input(
+            id=`name_sei_${num}`,
+            type='text',
+            name=`name_sei_${num}`,
+            placeholder='姓',
+            data-json=`{"validate-required": "true", "data-name": "name_sei_${num}"}`
+          ).form-item.is-text.input.is-hide.is-extra
+        .form-content.is-1of2
+          label 名:
+          input(
+            id=`name_mei_${num}`,
+            type='text',
+            name=`name_mei_${num}`,
+            placeholder='名',
+            data-json=`{"validate-required": "true", "data-name": "name_mei_${num}"}`
+          ).form-item.is-text.input.is-hide.is-extra
+
+        .validate-error-messages
+          span.is-required 必須項目なのに入力されていません
+          span.is-type 入力タイプが異なっています。
+
+      .form-module
+        .form-content.is-1of2
+          label セイ:
+          input(
+            id=`kana_sei_${num}`,
+            type='text',
+            name=`kana_sei_${num}`,
+            placeholder='セイ',
+            data-json=`{"validate-required": "true", "data-name": "kana_sei_${num}", "validate-type": "katakana"}`
+          ).is-text.form-item.input.is-hide.is-extra
+
+        .form-content.is-1of2
+          label メイ:
+          input(
+            id=`kana_mei_${num}`,
+            type='text',
+            name=`kana_mei_${num}`,
+            placeholder='メイ',
+            data-json=`{"validate-required": "true", "data-name": "kana_mei_${num}", "validate-type": "katakana"}`
+          ).is-text.form-item.input.is-hide.is-extra
+
+        .validate-error-messages
+          span.is-required 必須項目なのに入力されていません
+          span.is-type 入力タイプが異なっています。
+
+      .form-module
+        .form-content.is-full
+          label 生年月日:
+          input(
+            id=`birthday_y_${num}`,
+            type='text',
+            name=`birthday_y_${num}`,
+            placeholder='2018',
+            maxlength='4',
+            data-json=`{"validate-required": "true", "data-name": "birthday_y_${num}", "validate-type": "num"}`
+          ).is-text.form-item.input.is-hide.is-extra
+          span.is-hyphen 年
+          input(
+            id=`birthday_m_${num}`,
+            type='text',
+            name=`birthday_m_${num}`,
+            placeholder='12',
+            maxlength='2',
+            data-json=`{"validate-required": "true", "data-name": "birthday_m_${num}", "validate-type": "num"}`
+          ).is-text.form-item.input.is-hide.is-extra
+          span.is-hyphen 月
+          input(
+            id=`birthday_d_${num}`,
+            type='text',
+            name=`birthday_d_${num}`,
+            placeholder='01',
+            maxlength='2',
+            data-json=`{"validate-required": "true", "data-name": "birthday_d_${num}", "validate-type": "num"}`
+          ).is-text.form-item.input.is-hide.is-extra
+          span.is-hyphen 日
+        .validate-error-messages
+          span.is-required 必須項目なのに入力されていません
+          span.is-type 入力タイプが異なっています。
+
+      .form-module
+        .form-content
+          label 性別:
+          .item
+            label(for=`sex_${num}1`) 男
+            input(
+              id=`sex_${num}1`,
+              type='radio',
+              name=`sex_${num}`,
+              data-json=`{"validate-required": "false", "data-name": "sex_${num}"}`,
+              checked
+            ).form-item.is-hide.is-extra
+          .item
+            label(for=`sex_${num}2`) 女
+            input(
+              id=`sex_${num}2`,
+              type='radio',
+              name=`sex_${num}`,
+              data-json=`{"validate-required": "false", "data-name": "sex_${num}"}`
+            ).form-item.is-hide.is-extra
+
+      .form-module
+        .form-content.is-full
+          label Mail:
+          input(
+            id=`email_${num}`,
+            type='email',
+            name=`email_${num}`,
+            data-json=`{"validate-required": "true", "data-name": "email_${num}", "validate-type": "email"}`
+          ).is-text.form-item.input.is-hide.is-extra
+
+        .validate-error-messages
+          span.is-required 必須項目なのに入力されていません
+          span.is-type 入力タイプが異なっています。
+
+      .form-module
+        .form-content
+          label メールニュース:
+          .item
+            label(for=`mailnewsflg_${num}1`) 受け取る
+            input(
+              id=`mailnewsflg_${num}1`,
+              type='radio',
+              value='1',
+              name=`mailnewsflg_${num}`,
+              data-json=`{"validate-required": "false", "data-name": "mailnewsflg_${num}"}`,
+              checked
+            ).form-item.is-hide.is-extra
+          .item
+            label(for=`mailnewsflg_${num}3`) 受け取らない
+            input(
+              id=`mailnewsflg_${num}3`,
+              type='radio',
+              value='3',
+              name=`mailnewsflg_${num}`,
+              data-json=`{"validate-required": "false", "data-name": "mailnewsflg_${num}"}`
+            ).form-item.is-hide.is-extra
+        .validate-error-messages
+          span.is-required 必須項目なのに入力されていません
