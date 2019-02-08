@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { cloneDeep } from 'lodash';
 import { isKatakana, hasNumberChar, isEmail, isJPZipCode, isSingleByteNumber } from '../libs/validate';
 import { addClass, hasClass, removeClass, removeClasses } from '../libs/helper';
 import { isNull } from '../libs/get-type-of';
@@ -67,58 +66,54 @@ class FormValidator {
    * バリデーションする要素を取得
    * @private
    */
-  _setItems() {
-    return new Promise((resolve, reject) => {
-      console.log('_setItems');
-      this._items = this._container.querySelectorAll('.form-item:not(.is-hide)');
-      this._maxStatus = this._items.length;
-      this._items.forEach(item => {
-        let obj = {};
-        // もし'data-json'というデータ属性があれば
-        if (item.hasAttribute('data-json')) {
-          obj = JSON.parse(item.dataset.json);
-        }
+  async _setItems() {
+    console.log('_setItems');
+    this._items = this._container.querySelectorAll('.form-item:not(.is-hide)');
+    this._maxStatus = this._items.length;
+    this._items.forEach(item => {
+      let obj = {};
+      // もし'data-json'というデータ属性があれば
+      if (item.hasAttribute('data-json')) {
+        obj = JSON.parse(item.dataset.json);
+      }
 
-        item.myValidateData = obj;
+      item.myValidateData = obj;
 
-        // 項目の識別値
-        const key = obj['data-name'];
-        const tagName = item.tagName.toLowerCase();
+      // 項目の識別値
+      const key = obj['data-name'];
+      const tagName = item.tagName.toLowerCase();
 
-        let isRequired = false;
+      let isRequired = false;
 
-        // もしvalidate-required属性があり、かつその値がtrueなら
-        // つまり必須項目なら
-        if (!isNull(obj['validate-required']) && obj['validate-required'] === 'true') {
-          isRequired = true;
-        }
-        // ステートに状態をいれる
-        // 必須項目でないものはtrueをいれる。（必須項目でないものはもう入力済み状態にする）
-        this._state[key] = !isRequired;
+      // もしvalidate-required属性があり、かつその値がtrueなら
+      // つまり必須項目なら
+      if (!isNull(obj['validate-required']) && obj['validate-required'] === 'true') {
+        isRequired = true;
+      }
+      // ステートに状態をいれる
+      // 必須項目でないものはtrueをいれる。（必須項目でないものはもう入力済み状態にする）
+      this._state[key] = !isRequired;
 
-        // イベント登録
-        if (tagName === 'input' || tagName === 'textarea') {
-          item.addEventListener('blur', this._onBlur);
-          item.addEventListener('keydown', this._onKeydown);
-        }
+      // イベント登録
+      if (tagName === 'input' || tagName === 'textarea') {
+        item.addEventListener('blur', this._onBlur);
+        item.addEventListener('keydown', this._onKeydown);
+      }
 
-        switch (key) {
-          case 'name_sei':
-            this._lastName = item;
-            break;
-          case 'name_mei':
-            this._firstName = item;
-            break;
-          case 'kana_sei':
-            this._lastNameKana = item;
-            break;
-          case 'kana_mei':
-            this._firstNameKana = item;
-            break;
-        }
-      });
-
-      resolve();
+      switch (key) {
+        case 'name_sei':
+          this._lastName = item;
+          break;
+        case 'name_mei':
+          this._firstName = item;
+          break;
+        case 'kana_sei':
+          this._lastNameKana = item;
+          break;
+        case 'kana_mei':
+          this._firstNameKana = item;
+          break;
+      }
     });
   }
 
@@ -186,14 +181,11 @@ class FormValidator {
    * @return {Promise<any>}
    * @private
    */
-  _resetState() {
-    return new Promise((resolve, reject) => {
-      console.log('_resetState');
-      for (const key in this._state) {
-        delete this._state[key];
-      }
-      resolve();
-    });
+  async _resetState() {
+    console.log('_resetState');
+    for (const key in this._state) {
+      delete this._state[key];
+    }
   }
 
   /**
@@ -203,20 +195,17 @@ class FormValidator {
    * @return {Promise<any>}
    * @private
    */
-  _hideExtraElem() {
-    return new Promise((resolve, reject) => {
-      console.log('_hideExtraElem');
-      this._extraItems.forEach(i => {
-        const item = i;
-        i.style.display = 'none';
-        const formItems = item.querySelectorAll('.form-item');
-        formItems.forEach(f => {
-          f.classList.add('is-hide');
-        });
+  async _hideExtraElem() {
+    console.log('_hideExtraElem');
+    this._extraItems.forEach(i => {
+      const item = i;
+      i.style.display = 'none';
+      const formItems = item.querySelectorAll('.form-item');
+      formItems.forEach(f => {
+        f.classList.add('is-hide');
       });
-      console.log('_hideExtraElem done');
-      resolve();
     });
+    console.log('_hideExtraElem done');
   }
 
   /**
@@ -227,23 +216,19 @@ class FormValidator {
    * @return {Promise<any>}
    * @private
    */
-  _openExtraElem(index) {
-    return new Promise((resolve, reject) => {
-      console.log('_openExtraElem');
-      // ラッパーの開閉
-      this._famiyContents.style.display = index >= 2 ? 'block' : 'none';
+  async _openExtraElem(index) {
+    console.log('_openExtraElem');
+    // ラッパーの開閉
+    this._famiyContents.style.display = index >= 2 ? 'block' : 'none';
 
-      // 引数に応じて要素を出す。
-      for (let i = 0, length = index - 1; i < length; i++) {
-        this._extraItems[i].style.display = 'block';
-        const classes = this._extraItems[i].querySelectorAll('.form-item');
-        for (let i = 0; i < classes.length; i++) {
-          classes[i].classList.remove('is-hide');
-        }
+    // 引数に応じて要素を出す。
+    for (let i = 0, length = index - 1; i < length; i++) {
+      this._extraItems[i].style.display = 'block';
+      const classes = this._extraItems[i].querySelectorAll('.form-item');
+      for (let i = 0; i < classes.length; i++) {
+        classes[i].classList.remove('is-hide');
       }
-      console.log('_openExtraElem done');
-      resolve();
-    });
+    }
   }
 
   /**
@@ -251,16 +236,13 @@ class FormValidator {
    * @return {Promise<any>}
    * @private
    */
-  _deleteExtraElemValues() {
-    return new Promise((resolve, reject) => {
-      console.log('_deleteExtraElemValues');
-      this._extraItems.forEach(e => {
-        const wrap = e.querySelectorAll('.form-item.is-text');
-        wrap.forEach(w => {
-          w.value = '';
-        });
+  async _deleteExtraElemValues() {
+    console.log('_deleteExtraElemValues');
+    this._extraItems.forEach(e => {
+      const wrap = e.querySelectorAll('.form-item.is-text');
+      wrap.forEach(w => {
+        w.value = '';
       });
-      resolve();
     });
   }
 
@@ -269,16 +251,13 @@ class FormValidator {
    * @return {Promise<any>}
    * @private
    */
-  _validateAll() {
-    return new Promise((resolve, reject) => {
-      console.log('_validateAll');
-      const targets = document.querySelectorAll('.form-item:not(.is-extra)');
-      for (let i = 0; i < targets.length; i++) {
-        const item = targets[i];
-        this._validate(item);
-      }
-      resolve();
-    });
+  async _validateAll() {
+    console.log('_validateAll');
+    const targets = document.querySelectorAll('.form-item:not(.is-extra)');
+    for (let i = 0; i < targets.length; i++) {
+      const item = targets[i];
+      this._validate(item);
+    }
   }
 
   /**
@@ -291,8 +270,6 @@ class FormValidator {
     const type = data['validate-type'];
     const isRequired = JSON.parse(data['validate-required']);
     const key = data['data-name'];
-
-    console.log('type', type);
 
     if (type) {
       switch (type) {
@@ -490,20 +467,17 @@ class FormValidator {
    * @return {Promise<any>}
    * @private
    */
-  _checkAll() {
-    return new Promise((resolve, reject) => {
-      this._maxStatus = Object.keys(this._state).length;
-      let counter = 0;
+  async _checkAll() {
+    this._maxStatus = Object.keys(this._state).length;
+    let counter = 0;
 
-      Object.values(this._state).forEach(state => {
-        if (state) {
-          counter++;
-        }
-      });
-
-      this._changeSubmitState(!!(counter === this._maxStatus));
-      resolve();
+    Object.values(this._state).forEach(state => {
+      if (state) {
+        counter++;
+      }
     });
+
+    this._changeSubmitState(!!(counter === this._maxStatus));
   }
 
   /**
