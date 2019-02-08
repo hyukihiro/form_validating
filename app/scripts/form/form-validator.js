@@ -98,6 +98,7 @@ class FormValidator {
       if (tagName === 'input' || tagName === 'textarea') {
         item.addEventListener('blur', this._onBlur);
         item.addEventListener('keydown', this._onKeydown);
+        item.addEventListener('keypress', this._onKeypress);
       }
 
       switch (key) {
@@ -155,6 +156,19 @@ class FormValidator {
     this._timer = setTimeout(() => {
       this._validate(target);
     }, 300);
+  }
+
+  /**
+   * エンターキーでのご送信を防止
+   * @param event
+   * @return {boolean}
+   * @private
+   */
+  _onKeypress(event) {
+    if ((event.which && event.which === 13) || (event.keyCode && event.keyCode === 13)) {
+      event.preventDefault();
+      return false;
+    }
   }
 
   /**
@@ -510,7 +524,7 @@ class FormValidator {
    * @private
    */
   _changeSubmitState(enabled) {
-    console.table(this._state);
+    // console.table(this._state);
     if (enabled) {
       addClass(this._submitBtn, this._classStates.btnEnable);
     } else {
