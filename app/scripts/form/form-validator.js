@@ -193,7 +193,7 @@ class FormValidator {
 
   /**
    * stateを一旦削除する
-   * @return {Promise<any>}
+   * @return {Promise<void>}
    * @private
    */
   async _resetState() {
@@ -207,7 +207,7 @@ class FormValidator {
    * セレクトボックスの値に応じて表示した要素を非表示にする
    * 非表示にする要素のフォーム要素に付属したquerySelectorAllの識別クラスを付与
    * して、バリデーションの対象から外す
-   * @return {Promise<any>}
+   * @return {Promise<void>}
    * @private
    */
   async _hideExtraElem() {
@@ -228,7 +228,7 @@ class FormValidator {
    * 表示にする要素のフォーム要素に付属したquerySelectorAllの識別クラスを削除
    * してバリデーションの対象として取得させる
    * @param index
-   * @return {Promise<any>}
+   * @return {Promise<void>}
    * @private
    */
   async _openExtraElem(index) {
@@ -487,7 +487,7 @@ class FormValidator {
 
   /**
    * すべての入力項目が記入されたかチェック
-   * @return {Promise<any>}
+   * @return {Promise<void>}
    * @private
    */
   async _checkAll() {
