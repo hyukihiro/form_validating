@@ -342,6 +342,7 @@ class FormValidator {
   _validateEmail(target, key, isRequired) {
     const value = target.value;
     const parent = target.parentNode.parentNode;
+    // メールアドレスのを比較するためにクラスメンバに値を格納
     if (key === 'email') {
       this._email0 = value;
     } else {
