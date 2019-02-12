@@ -248,7 +248,7 @@ class FormValidator {
 
   /**
    * 入力された要素の値を削除する
-   * @return {Promise<any>}
+   * @return {Promise<void>}
    * @private
    */
   async _deleteExtraElemValues() {
@@ -266,19 +266,19 @@ class FormValidator {
   }
 
   /**
-   * すべてのバリデーションを走らせる
-   * @return {Promise<any>}
+   * 対象の要素のvalueが入力されていればバリデーションを走らせる
+   * @return {Promise<void>}
    * @private
    */
   async _validateAll() {
     console.log('_validateAll');
-    const firstItemValue = document.getElementById('name_sei').value;
-    if (firstItemValue.length <= 0) {
-      return;
-    }
     const targets = document.querySelectorAll('.form-item:not(.is-extra)');
     for (let i = 0; i < targets.length; i++) {
       const item = targets[i];
+      const itemValue = item.value;
+      if (itemValue <= 0) {
+        return;
+      }
       this._validate(item);
     }
   }
@@ -533,7 +533,7 @@ class FormValidator {
    * @private
    */
   _changeSubmitState(enabled) {
-    // console.table(this._state);
+    console.table(this._state);
     if (enabled) {
       addClass(this._submitBtn, this._classStates.btnEnable);
     } else {
