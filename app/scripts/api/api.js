@@ -25,7 +25,6 @@ const dispatch = action => {
 };
 
 export const apiRequest = (action, cb) => {
-  console.log(action.fail);
   if (action && !isUndefined(action) && !isUndefined(action.apiMethod)) {
     const handleSuccess = response => {
       dispatch(action.success({ response, requestAction: action }));

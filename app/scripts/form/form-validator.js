@@ -573,10 +573,8 @@ class FormValidator {
       const { data } = payload;
       const { response } = data;
       const { status } = response;
-      console.log(status);
-      if (status === 200) {
-        const { results } = response;
-        console.log(results[0]);
+      const { results } = response;
+      if (status === 200 && !isNull(results)) {
         this._updateAddressByZipCode(results[0]);
       } else {
         console.log('log');
