@@ -267,6 +267,10 @@ class FormValidator {
    */
   async _validateAll() {
     console.log('_validateAll');
+    const firstItemValue = document.getElementById('name_sei').value;
+    if (firstItemValue.length <= 0) {
+      return;
+    }
     const targets = document.querySelectorAll('.form-item:not(.is-extra)');
     for (let i = 0; i < targets.length; i++) {
       const item = targets[i];
