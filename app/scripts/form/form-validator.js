@@ -350,16 +350,19 @@ class FormValidator {
 
     if (isRequired) {
       if (value.length <= 0) {
+        // 入力されてない
         this._showError(parent, REQUIRED_ERROR);
         this._hideError(parent, TYPE_ERROR);
         this._hideError(parent, DIFFERENT_ERROR);
         this._state[key] = false;
       } else if (value.length <= 0 || !isEmail(value)) {
+        // Email形式でない
         this._showError(parent, TYPE_ERROR);
         this._hideError(parent, REQUIRED_ERROR);
         this._hideError(parent, DIFFERENT_ERROR);
         this._state[key] = false;
       } else if (this._email0 !== this._email1 && !isNull(this._email0) && !isNull(this._email1)) {
+        // 両者の値が違う
         this._showError(parent, DIFFERENT_ERROR);
         this._hideError(parent, TYPE_ERROR);
         this._hideError(parent, REQUIRED_ERROR);
