@@ -184,6 +184,7 @@ class FormValidator {
     await this._resetState();
     await this._hideExtraElem();
     await this._deleteExtraElemValues();
+    await this._removeClasses();
     await this._openExtraElem(num);
     await this._setItems();
     await this._validateAll();
@@ -258,6 +259,10 @@ class FormValidator {
         w.value = '';
       });
     });
+  }
+
+  async _removeClasses() {
+    console.log('_removeClasses');
   }
 
   /**
