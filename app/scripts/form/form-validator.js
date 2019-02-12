@@ -1,5 +1,12 @@
 import axios from 'axios';
-import { isKatakana, hasNumberChar, isEmail, isJPZipCode, isSingleByteNumber } from '../libs/validate';
+import {
+  isKatakana,
+  hasNumberChar,
+  isEmail,
+  isJPZipCode,
+  isSingleByteNumber,
+  isTelephoneNumber
+} from '../libs/validate';
 import { addClass, hasClass, removeClass, removeClasses } from '../libs/helper';
 import { isNull } from '../libs/get-type-of';
 import * as APIAction from '../actions/api-action';
@@ -318,6 +325,10 @@ class FormValidator {
           this._validateNumber(target, key, isRequired);
           break;
 
+        case 'tel':
+          this._validateTel(target, key, isRequired);
+          break;
+
         default:
           console.log('in default');
       }
@@ -462,6 +473,30 @@ class FormValidator {
       }
     } else {
       this._state[key] = !!(value <= 0 || isKatakana(value));
+    }
+
+    this._checkAll();
+  }
+
+  _validateTel(target, key, isRequired) {
+    const value = target.value;
+    const parent = target.parentNode.parentNode;
+
+    if (isRequired) {
+      if (value.length <= 0) {
+        this._showError(parent, REQUIRED_ERROR);
+        this._hideError(parent, TYPE_ERROR);
+        this._state[key] = false;
+      } else if (value.length <= 0 || !isTelephoneNumber(value)) {
+        this._showError(parent, TYPE_ERROR);
+        this._hideError(parent, REQUIRED_ERROR);
+        this._state[key] = false;
+      } else {
+        removeClasses(parent, [TYPE_ERROR, REQUIRED_ERROR]);
+        this._state[key] = true;
+      }
+    } else {
+      this._state[key] = !!(value.length <= 0 || hasNumberChar(value));
     }
 
     this._checkAll();

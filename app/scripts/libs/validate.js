@@ -58,6 +58,15 @@ export const isCellPhoneNumber = (str, _hasHyphen) => {
   }
 };
 
+export const isTelephoneNumber = str => {
+  return isString(str)
+    ? /^((0(\d{1}[-(]?\d{4}|\d{2}[-(]?\d{3}|\d{3}[-(]?\d{2}|\d{4}[-(]?\d{1}|[5789]0[-(]?\d{4})[-)]?)|\d{1,4}\-?)\d{4}$/.test(
+        str
+      )
+    : false;
+  // return isString(str) ? /^(0[5-9]0[0-9]{8}|0[1-9][1-9][0-9]{7})$/.test(str) : false;
+};
+
 /**
  * 半角数字であるか
  * @param str       { string } 半角数字
