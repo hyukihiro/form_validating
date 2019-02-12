@@ -378,49 +378,6 @@ class FormValidator {
   }
 
   /**
-   * メールアドレス確認
-   * @param target
-   * @param key
-   * @param isRequired
-   * @private
-   */
-  _validateEmailConfirm(target, key, isRequired) {
-    const value = target.value;
-    const parent = target.parentNode.parentNode;
-    this._email1 = value;
-    console.log('this._email0', this._email0);
-    console.log('this._email1', this._email1);
-
-    if (isRequired) {
-      if (value.length <= 0) {
-        this._showError(parent, REQUIRED_ERROR);
-        this._hideError(parent, TYPE_ERROR);
-        this._hideError(parent, DIFFERENT_ERROR);
-        this._state[key] = false;
-      } else if (value.length <= 0 || !isEmail(value)) {
-        this._showError(parent, TYPE_ERROR);
-        this._hideError(parent, REQUIRED_ERROR);
-        this._hideError(parent, DIFFERENT_ERROR);
-        this._state[key] = false;
-      } else if (this._email0 !== this._email1) {
-        this._showError(parent, DIFFERENT_ERROR);
-        this._hideError(parent, TYPE_ERROR);
-        this._hideError(parent, REQUIRED_ERROR);
-        this._state[key] = false;
-      } else {
-        // OK
-        removeClasses(parent, [TYPE_ERROR, REQUIRED_ERROR, DIFFERENT_ERROR]);
-        this._state[key] = true;
-      }
-    } else {
-      // メール形式に沿っている、もしくは何も入力されていない。
-      this._state[key] = !!(value.length === 0 || isEmail(value));
-    }
-
-    this._checkAll();
-  }
-
-  /**
    * 数字かどうか判定
    * @param target
    * @param key
