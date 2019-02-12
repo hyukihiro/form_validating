@@ -184,7 +184,7 @@ class FormValidator {
     await this._resetState();
     await this._hideExtraElem();
     await this._deleteExtraElemValues();
-    await this._removeClasses();
+    await this._removeClasses(this._extraItems);
     await this._openExtraElem(num);
     await this._setItems();
     await this._validateAll();
@@ -261,8 +261,14 @@ class FormValidator {
     });
   }
 
-  async _removeClasses() {
+  async _removeClasses(elems) {
     console.log('_removeClasses');
+    elems.forEach(e => {
+      const wrap = e.querySelectorAll('.form-module');
+      wrap.forEach(w => {
+        removeClasses(w, [TYPE_ERROR, REQUIRED_ERROR]);
+      });
+    });
   }
 
   /**
@@ -533,7 +539,7 @@ class FormValidator {
    * @private
    */
   _changeSubmitState(enabled) {
-    console.table(this._state);
+    // console.table(this._state);
     if (enabled) {
       addClass(this._submitBtn, this._classStates.btnEnable);
     } else {
