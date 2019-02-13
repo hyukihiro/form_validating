@@ -317,6 +317,10 @@ class FormValidator {
           this._validateEmail(target, key, isRequired);
           break;
 
+        case 'email-confirm':
+          this._validateEmailConfirm(target, key, isRequired);
+          break;
+
         case 'num':
           this._validateNumber(target, key, isRequired);
           break;
@@ -342,28 +346,56 @@ class FormValidator {
   _validateEmail(target, key, isRequired) {
     const value = target.value;
     const parent = target.parentNode.parentNode;
-    // メールアドレスのを比較するためにクラスメンバに値を格納
-    if (key === 'email') {
-      this._email0 = value;
-    } else {
-      this._email1 = value;
-    }
+    this._email0 = value;
 
     if (isRequired) {
       if (value.length <= 0) {
-        // 入力されてない
+        this._showError(parent, REQUIRED_ERROR);
+        this._hideError(parent, TYPE_ERROR);
+        this._state[key] = false;
+      } else if (value.length <= 0 || !isEmail(value)) {
+        this._showError(parent, TYPE_ERROR);
+        this._hideError(parent, REQUIRED_ERROR);
+        this._state[key] = false;
+      } else {
+        // OK
+        removeClasses(parent, [TYPE_ERROR, REQUIRED_ERROR]);
+        this._state[key] = true;
+      }
+    } else {
+      // メール形式に沿っている、もしくは何も入力されていない。
+      this._state[key] = !!(value.length === 0 || isEmail(value));
+    }
+
+    this._checkAll();
+  }
+
+  /**
+   * メールアドレス確認
+   * @param target
+   * @param key
+   * @param isRequired
+   * @private
+   */
+  _validateEmailConfirm(target, key, isRequired) {
+    const value = target.value;
+    const parent = target.parentNode.parentNode;
+    this._email1 = value;
+    console.log('this._email0', this._email0);
+    console.log('this._email1', this._email1);
+
+    if (isRequired) {
+      if (value.length <= 0) {
         this._showError(parent, REQUIRED_ERROR);
         this._hideError(parent, TYPE_ERROR);
         this._hideError(parent, DIFFERENT_ERROR);
         this._state[key] = false;
       } else if (value.length <= 0 || !isEmail(value)) {
-        // Email形式でない
         this._showError(parent, TYPE_ERROR);
         this._hideError(parent, REQUIRED_ERROR);
         this._hideError(parent, DIFFERENT_ERROR);
         this._state[key] = false;
-      } else if (this._email0 !== this._email1 && !isNull(this._email0) && !isNull(this._email1)) {
-        // 両者の値が違う
+      } else if (this._email0 !== this._email1) {
         this._showError(parent, DIFFERENT_ERROR);
         this._hideError(parent, TYPE_ERROR);
         this._hideError(parent, REQUIRED_ERROR);
@@ -542,7 +574,7 @@ class FormValidator {
    * @private
    */
   _changeSubmitState(enabled) {
-    // console.table(this._state);
+    console.table(this._state);
     if (enabled) {
       addClass(this._submitBtn, this._classStates.btnEnable);
     } else {

@@ -5,19 +5,19 @@ section.sec
       .form-content.is-1of2
         label 姓:
         input#name_sei(
-          type='text',
-          name='name_sei',
-          placeholder='姓',
-          data-json='{"validate-required": "true", "data-name": "name_sei"}'
+        type='text',
+        name='name_sei',
+        placeholder='姓',
+        data-json='{"validate-required": "true", "data-name": "name_sei"}'
         ).form-item.is-text.input
 
       .form-content.is-1of2
         label 名:
         input#name_mei(
-          type='text',
-          name='name_mei',
-          placeholder='名',
-          data-json='{"validate-required": "true", "data-name": "name_mei"}'
+        type='text',
+        name='name_mei',
+        placeholder='名',
+        data-json='{"validate-required": "true", "data-name": "name_mei"}'
         ).form-item.is-text.input
 
       .validate-error-messages
@@ -28,19 +28,19 @@ section.sec
       .form-content.is-1of2
         label セイ:
         input#kana_sei(
-          type='text',
-          name='kana_sei',
-          placeholder='セイ',
-          data-json='{"validate-required": "true", "data-name": "kana_sei", "validate-type": "katakana"}'
+        type='text',
+        name='kana_sei',
+        placeholder='セイ',
+        data-json='{"validate-required": "true", "data-name": "kana_sei", "validate-type": "katakana"}'
         ).is-text.form-item.input
 
       .form-content.is-1of2
         label メイ:
         input#kana_mei(
-          type='text',
-          name='kana_mei',
-          placeholder='メイ',
-          data-json='{"validate-required": "true", "data-name": "kana_mei", "validate-type": "katakana"}'
+        type='text',
+        name='kana_mei',
+        placeholder='メイ',
+        data-json='{"validate-required": "true", "data-name": "kana_mei", "validate-type": "katakana"}'
         ).is-text.form-item.input
 
       .validate-error-messages
@@ -51,36 +51,36 @@ section.sec
       .form-content
         label 郵便番号:
         input#zip1(
-          type='zip1',
-          name='zip1',
-          placeholder='000',
-          data-json='{"validate-required": "true", "data-name": "zip1", "validate-type": "num"}',
-          maxlength='3'
+        type='zip1',
+        name='zip1',
+        placeholder='000',
+        data-json='{"validate-required": "true", "data-name": "zip1", "validate-type": "num"}',
+        maxlength='3'
         ).is-text.form-item.js-postcode-item.input
         span.is-hyphen -
         input#zip2(
-          type='zip2',
-          name='zip2',
-          placeholder='0000',
-          data-json='{"validate-required": "true", "data-name": "zip2", "validate-type": "num"}',
-          maxlength='4'
+        type='zip2',
+        name='zip2',
+        placeholder='0000',
+        data-json='{"validate-required": "true", "data-name": "zip2", "validate-type": "num"}',
+        maxlength='4'
         ).is-text.form-item.input.js-postcode-item.input
         //span.postcode.button.is-small.js-postcode-trigger 郵便番号から住所を検索
       .form-content.is-full
         label 住所:
         input#address1(
-          type='address1',
-          name='address1',
-          placeholder='市区町村番地',
-          data-json='{"validate-required": "true", "data-name": "address1"}'
+        type='address1',
+        name='address1',
+        placeholder='市区町村番地',
+        data-json='{"validate-required": "true", "data-name": "address1"}'
         ).is-text.form-item.is-full.input.js-postcode-target
       .form-content.is-full
         label 建物:
         input#address2(
-          type='address2',
-          name='address2',
-          placeholder='建物名',
-          data-json='{"validate-required": "true", "data-name": "address2"}'
+        type='address2',
+        name='address2',
+        placeholder='建物名',
+        data-json='{"validate-required": "true", "data-name": "address2"}'
         ).is-text.form-item.is-full.input
       .validate-error-messages
         span.is-required 必須項目なのに入力されていません
@@ -90,10 +90,10 @@ section.sec
       .form-content.is-full
         label TEL:
         input#tel(
-          type='tel',
-          name='tel',
-          data-json='{"validate-type":"tel", "data-name": "tel", "validate-required": "true"}',
-          maxlength='13'
+        type='tel',
+        name='tel',
+        data-json='{"validate-type":"tel", "data-name": "tel", "validate-required": "true"}',
+        maxlength='13'
         ).is-text.form-item.input
 
       .validate-error-messages
@@ -104,16 +104,23 @@ section.sec
       .form-content.is-full
         label Mail:
         input#email(
-         type='email',
-          name='email',
-          data-json='{"validate-required": "true", "data-name": "email", "validate-type": "email"}'
+        type='email',
+        name='email',
+        data-json='{"validate-required": "true", "data-name": "email", "validate-type": "email"}'
         ).is-text.form-item.input
+
+      .validate-error-messages
+        span.is-required 必須項目なのに入力されていません
+        span.is-type 入力タイプが異なっています。
+        span.is-different E-mailと、E-mail（再入力）は同じものを入力してください。
+
+    .form-module
       .form-content.is-full
         label もう一度:
         input#email2(
         type='email2',
         name='email2',
-        data-json='{"validate-required": "true", "data-name": "email2", "validate-type": "email"}',
+        data-json='{"validate-required": "true", "data-name": "email2", "validate-type": "email-confirm"}',
         data-disable-paste='true'
         ).is-text.form-item.input
 
@@ -128,46 +135,46 @@ section.sec
         .item
           label(for='sex1') 男
           input#sex1(
-            type='radio',
-            name='sex',
-            value='1',
-            data-json='{"validate-required": "false", "data-name": "gender"}',
-            checked
+          type='radio',
+          name='sex',
+          value='1',
+          data-json='{"validate-required": "false", "data-name": "gender"}',
+          checked
           ).form-item
         .item
           label(for='sex2') 女
           input#sex2(
-            type='radio',
-            name='sex',
-            value='2',
-            data-json='{"validate-required": "false", "data-name": "gender"}'
+          type='radio',
+          name='sex',
+          value='2',
+          data-json='{"validate-required": "false", "data-name": "gender"}'
           ).form-item
 
     .form-module
       .form-content.is-full
         label 生年月日:
         input#birthday_y(
-          type='text',
-          name='birthday_y',
-          placeholder='2018',
-          maxlength='4',
-          data-json='{"validate-required": "true", "data-name": "birthday_y", "validate-type": "num"}'
+        type='text',
+        name='birthday_y',
+        placeholder='2018',
+        maxlength='4',
+        data-json='{"validate-required": "true", "data-name": "birthday_y", "validate-type": "num"}'
         ).is-text.form-item.input
         span.is-hyphen 年
         input#birthday_m(
-          type='text',
-          name='birthday_m',
-          placeholder='12',
-          maxlength='2',
-          data-json='{"validate-required": "true", "data-name": "birthday_m", "validate-type": "num"}'
+        type='text',
+        name='birthday_m',
+        placeholder='12',
+        maxlength='2',
+        data-json='{"validate-required": "true", "data-name": "birthday_m", "validate-type": "num"}'
         ).is-text.form-item.input
         span.is-hyphen 月
         input#birthday_d(
-          type='text',
-          name='birthday_d',
-          placeholder='01',
-          maxlength='2',
-          data-json='{"validate-required": "true", "data-name": "birthday_d", "validate-type": "num"}'
+        type='text',
+        name='birthday_d',
+        placeholder='01',
+        maxlength='2',
+        data-json='{"validate-required": "true", "data-name": "birthday_d", "validate-type": "num"}'
         ).is-text.form-item.input
         span.is-hyphen 日
       .validate-error-messages
@@ -199,19 +206,19 @@ section.sec
         .item
           label(for='mailnewsflg1') 受け取る
           input#mailnewsflg1(
-            type='radio',
-            value='1',
-            name='mailnewsflg',
-            data-json='{"validate-required": "false", "data-name": "mailnewsflg"}',
-            checked
+          type='radio',
+          value='1',
+          name='mailnewsflg',
+          data-json='{"validate-required": "false", "data-name": "mailnewsflg"}',
+          checked
           ).form-item
         .item
           label(for='mailnewsflg3') 受け取らない
           input#mailnewsflg3(
-            type='radio',
-            value='3',
-            name='mailnewsflg',
-            data-json='{"validate-required": "false", "data-name": "mailnewsflg"}'
+          type='radio',
+          value='3',
+          name='mailnewsflg',
+          data-json='{"validate-required": "false", "data-name": "mailnewsflg"}'
           ).form-item
       .validate-error-messages
         span.is-required 必須項目なのに入力されていません
@@ -220,9 +227,9 @@ section.sec
       .form-content.is-full
         label コメント:
         textarea#comment(
-          rows='10',
-          name='comment',
-          data-json='{"validate-required": "false", "data-name": "comment"}'
+        rows='10',
+        name='comment',
+        data-json='{"validate-required": "false", "data-name": "comment"}'
         ).is-text.form-item.input
       .validate-error-messages
         span.is-required 必須項目なのに入力されていません
@@ -231,7 +238,7 @@ section.sec
     .form-module
       .form-content.is-full
         input#js-submit(
-          type='submit',
-          name='submit',
-          data-json='{"validate-required": "false", "data-name": "submit"}'
+        type='submit',
+        name='submit',
+        data-json='{"validate-required": "false", "data-name": "submit"}'
         ).form-item.is-submit
