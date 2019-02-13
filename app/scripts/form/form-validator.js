@@ -321,6 +321,10 @@ class FormValidator {
           this._validateEmailConfirm(target, key, isRequired);
           break;
 
+        case 'email-extra':
+          this._validateExtraEmail(target, key, isRequired);
+          break;
+
         case 'num':
           this._validateNumber(target, key, isRequired);
           break;
@@ -367,6 +371,8 @@ class FormValidator {
       this._state[key] = !!(value.length === 0 || isEmail(value));
     }
 
+    this._checkEqualEmail(target);
+
     this._checkAll();
   }
 
@@ -381,8 +387,6 @@ class FormValidator {
     const value = target.value;
     const parent = target.parentNode.parentNode;
     this._email1 = value;
-    console.log('this._email0', this._email0);
-    console.log('this._email1', this._email1);
 
     if (isRequired) {
       if (value.length <= 0) {
@@ -395,11 +399,6 @@ class FormValidator {
         this._hideError(parent, REQUIRED_ERROR);
         this._hideError(parent, DIFFERENT_ERROR);
         this._state[key] = false;
-      } else if (this._email0 !== this._email1) {
-        this._showError(parent, DIFFERENT_ERROR);
-        this._hideError(parent, TYPE_ERROR);
-        this._hideError(parent, REQUIRED_ERROR);
-        this._state[key] = false;
       } else {
         // OK
         removeClasses(parent, [TYPE_ERROR, REQUIRED_ERROR, DIFFERENT_ERROR]);
@@ -410,6 +409,40 @@ class FormValidator {
       this._state[key] = !!(value.length === 0 || isEmail(value));
     }
 
+    this._checkEqualEmail(target);
+
+    this._checkAll();
+  }
+
+  /**
+   * ファミリーメンバー用のメールバリデーション
+   * @param target
+   * @param key
+   * @param isRequired
+   * @private
+   */
+  _validateExtraEmail(target, key, isRequired) {
+    const value = target.value;
+    const parent = target.parentNode.parentNode;
+
+    if (isRequired) {
+      if (value.length <= 0) {
+        this._showError(parent, REQUIRED_ERROR);
+        this._hideError(parent, TYPE_ERROR);
+        this._state[key] = false;
+      } else if (value.length <= 0 || !isEmail(value)) {
+        this._showError(parent, TYPE_ERROR);
+        this._hideError(parent, REQUIRED_ERROR);
+        this._state[key] = false;
+      } else {
+        // OK
+        removeClasses(parent, [TYPE_ERROR, REQUIRED_ERROR]);
+        this._state[key] = true;
+      }
+    } else {
+      // メール形式に沿っている、もしくは何も入力されていない。
+      this._state[key] = !!(value.length === 0 || isEmail(value));
+    }
     this._checkAll();
   }
 
@@ -474,7 +507,6 @@ class FormValidator {
     } else {
       this._state[key] = !!(value <= 0 || isKatakana(value));
     }
-
     this._checkAll();
   }
 
@@ -542,6 +574,29 @@ class FormValidator {
     });
 
     this._changeSubmitState(!!(counter === this._maxStatus));
+  }
+
+  /**
+   * メールアドレスが同じかどうかチェックする
+   * @param target
+   * @private
+   */
+  _checkEqualEmail(target) {
+    const parent = target.parentNode.parentNode;
+    if (!this._email1 || !isEmail(this._email1)) {
+      return;
+    }
+    if (this._email0 !== this._email1) {
+      this._state.email = false;
+      this._state.email2 = false;
+      this._showError(parent, DIFFERENT_ERROR);
+      this._hideError(parent, TYPE_ERROR);
+      this._hideError(parent, REQUIRED_ERROR);
+    } else {
+      this._state.email = true;
+      this._state.email2 = true;
+      removeClasses(parent, [TYPE_ERROR, REQUIRED_ERROR, DIFFERENT_ERROR]);
+    }
   }
 
   /**
