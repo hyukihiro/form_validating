@@ -9,7 +9,7 @@
 
 .form-module
   display: flex
-  justify-content: space-between
+  justify-content: flex-start
   flex-wrap: wrap
   width: 100%
   margin-top: 15px
@@ -34,10 +34,10 @@
     background-color: #00d1b2
     color: #fff
 
-  &.is-error-type .is-type
+  & .is-error-type .is-type
     display: block
 
-  &.is-error-required .is-required
+  & .is-error-required .is-required
     display: block
 
   &.is-error-different .is-different
@@ -59,18 +59,19 @@
 .form-content
   display: flex
   justify-content: space-between
+  flex-wrap: wrap
   align-items: center
   padding: 10px 20px
-
-  & > label
-    font-size: 12px
-    min-width: 50px
 
   &.is-1of2
     width: 50%
 
   &.is-full
     width: 100%
+
+label
+  font-size: 12px
+  min-width: 50px
 
 
 .is-hyphen

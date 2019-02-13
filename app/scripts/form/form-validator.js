@@ -353,7 +353,7 @@ class FormValidator {
    */
   _validateEmail(target, key, isRequired) {
     const value = target.value;
-    const parent = target.parentNode.parentNode;
+    const parent = target.parentNode;
     this._email0 = value;
 
     if (isRequired) {
@@ -389,7 +389,7 @@ class FormValidator {
    */
   _validateEmailConfirm(target, key, isRequired) {
     const value = target.value;
-    const parent = target.parentNode.parentNode;
+    const parent = target.parentNode;
     this._email1 = value;
 
     if (isRequired) {
@@ -427,7 +427,7 @@ class FormValidator {
    */
   _validateExtraEmail(target, key, isRequired) {
     const value = target.value;
-    const parent = target.parentNode.parentNode;
+    const parent = target.parentNode;
 
     if (isRequired) {
       if (value.length <= 0) {
@@ -459,7 +459,7 @@ class FormValidator {
    */
   _validateNumber(target, key, isRequired) {
     const value = target.value;
-    const parent = target.parentNode.parentNode;
+    const parent = target.parentNode;
 
     if (isRequired) {
       if (value.length <= 0) {
@@ -490,7 +490,7 @@ class FormValidator {
    */
   _validateKatakana(target, key, isRequired) {
     const value = target.value;
-    const parent = target.parentNode.parentNode;
+    const parent = target.parentNode;
 
     if (isRequired) {
       if (value <= 0) {
@@ -523,7 +523,7 @@ class FormValidator {
    */
   _validateTel(target, key, isRequired) {
     const value = target.value;
-    const parent = target.parentNode.parentNode;
+    const parent = target.parentNode;
 
     if (isRequired) {
       if (value.length <= 0) {
@@ -554,7 +554,7 @@ class FormValidator {
    */
   _validateRequired(target, key, isRequired) {
     const value = target.value;
-    const parent = target.parentNode.parentNode;
+    const parent = target.parentNode;
     if (isRequired) {
       if (value <= 0) {
         this._showError(parent, REQUIRED_ERROR);
@@ -638,7 +638,7 @@ class FormValidator {
    * @private
    */
   _changeSubmitState(enabled) {
-    // console.table(this._state);
+    console.table(this._state);
     if (enabled) {
       addClass(this._submitBtn, this._classStates.btnEnable);
     } else {

@@ -14,6 +14,9 @@
             placeholder='姓',
             data-json=`{"validate-required": "true", "data-name": "name_sei_${num}"}`
           ).form-item.is-text.input.is-hide.is-extra
+          .validate-error-messages
+            span.is-required 必須項目なのに入力されていません
+            span.is-type 入力タイプが異なっています。
         .form-content.is-1of2
           label 名:
           input(
@@ -24,9 +27,9 @@
             data-json=`{"validate-required": "true", "data-name": "name_mei_${num}"}`
           ).form-item.is-text.input.is-hide.is-extra
 
-        .validate-error-messages
-          span.is-required 必須項目なのに入力されていません
-          span.is-type 入力タイプが異なっています。
+          .validate-error-messages
+            span.is-required 必須項目なのに入力されていません
+            span.is-type 入力タイプが異なっています。
 
       .form-module
         .form-content.is-1of2
@@ -38,6 +41,9 @@
             placeholder='セイ',
             data-json=`{"validate-required": "true", "data-name": "kana_sei_${num}", "validate-type": "katakana"}`
           ).is-text.form-item.input.is-hide.is-extra
+          .validate-error-messages
+            span.is-required 必須項目なのに入力されていません
+            span.is-type 入力タイプが異なっています。
 
         .form-content.is-1of2
           label メイ:
@@ -49,12 +55,12 @@
             data-json=`{"validate-required": "true", "data-name": "kana_mei_${num}", "validate-type": "katakana"}`
           ).is-text.form-item.input.is-hide.is-extra
 
-        .validate-error-messages
-          span.is-required 必須項目なのに入力されていません
-          span.is-type 入力タイプが異なっています。
+          .validate-error-messages
+            span.is-required 必須項目なのに入力されていません
+            span.is-type 入力タイプが異なっています。
 
       .form-module
-        .form-content.is-full
+        .form-content
           label 生年月日:
           input(
             id=`birthday_y_${num}`,
@@ -65,6 +71,10 @@
             data-json=`{"validate-required": "true", "data-name": "birthday_y_${num}", "validate-type": "num"}`
           ).is-text.form-item.input.is-hide.is-extra
           span.is-hyphen 年
+          .validate-error-messages
+            span.is-required 必須項目なのに入力されていません
+            span.is-type 入力タイプが異なっています。
+        .form-content
           input(
             id=`birthday_m_${num}`,
             type='text',
@@ -74,6 +84,11 @@
             data-json=`{"validate-required": "true", "data-name": "birthday_m_${num}", "validate-type": "num"}`
           ).is-text.form-item.input.is-hide.is-extra
           span.is-hyphen 月
+          .validate-error-messages
+            span.is-required 必須項目なのに入力されていません
+            span.is-type 入力タイプが異なっています。
+
+        .form-content
           input(
             id=`birthday_d_${num}`,
             type='text',
@@ -83,9 +98,9 @@
             data-json=`{"validate-required": "true", "data-name": "birthday_d_${num}", "validate-type": "num"}`
           ).is-text.form-item.input.is-hide.is-extra
           span.is-hyphen 日
-        .validate-error-messages
-          span.is-required 必須項目なのに入力されていません
-          span.is-type 入力タイプが異なっています。
+          .validate-error-messages
+            span.is-required 必須項目なのに入力されていません
+            span.is-type 入力タイプが異なっています。
 
       .form-module
         .form-content
@@ -118,9 +133,9 @@
             data-json=`{"validate-required": "true", "data-name": "email_${num}", "validate-type": "email-extra"}`
           ).is-text.form-item.input.is-hide.is-extra
 
-        .validate-error-messages
-          span.is-required 必須項目なのに入力されていません
-          span.is-type 入力タイプが異なっています。
+          .validate-error-messages
+            span.is-required 必須項目なのに入力されていません
+            span.is-type 入力タイプが異なっています。
 
       .form-module
         .form-content
@@ -144,5 +159,5 @@
               name=`mailnewsflg_${num}`,
               data-json=`{"validate-required": "false", "data-name": "mailnewsflg_${num}"}`
             ).form-item.is-hide.is-extra
-        .validate-error-messages
-          span.is-required 必須項目なのに入力されていません
+          .validate-error-messages
+            span.is-required 必須項目なのに入力されていません
