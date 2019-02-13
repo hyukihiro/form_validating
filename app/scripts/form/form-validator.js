@@ -10,6 +10,7 @@ import postalCode from 'japan-postal-code';
 import { addClass, hasClass, removeClass, removeClasses } from '../libs/helper';
 import { isNull } from '../libs/get-type-of';
 import { makeArray } from '../libs/make-array';
+import MemberForm from './_member-form';
 
 const TYPE_ERROR = 'is-error-type';
 const REQUIRED_ERROR = 'is-error-required';
@@ -21,6 +22,7 @@ class FormValidator {
     this._state = {};
     this._maxStatus = 0;
     this._timer = -1;
+    this._memberForms = [];
 
     this._postcode0 = null;
     this._postcode1 = null;
@@ -44,13 +46,43 @@ class FormValidator {
     this._validateRequired = this._validateRequired.bind(this);
     this._onBlur = this._onBlur.bind(this);
     this._onKeydown = this._onKeydown.bind(this);
+    this._onKeypress = this._onKeypress.bind(this);
     this._onSelectChange = this._onSelectChange.bind(this);
+    this._updateChildState = this._updateChildState.bind(this);
 
     this._classStates = {
       danger: 'is-danger',
       success: 'is-success',
       btnEnable: 'is-btn-enable'
     };
+
+    const memberOpts = makeArray(
+      document.getElementById('m_tomo_type_id').getElementsByTagName('option')
+    );
+    const memberContainers = makeArray(
+      document.querySelectorAll('.family-member')
+    );
+
+    for (let i = 0, num = memberOpts.length; i < num; i++) {
+      const threshold = 2;
+      if (
+        memberOpts[i].value.length > 0 &&
+        parseInt(memberOpts[i].value.slice(memberOpts[i].value.length - 1)) >=
+          threshold
+      ) {
+        const memberForm = new MemberForm(
+          memberContainers[i - threshold],
+          memberOpts[i].value
+        );
+        this._memberForms.push(memberForm);
+      }
+    }
+
+    makeArray(
+      this._memberForms.forEach(m => {
+        m.on(MemberForm.CHANGE, this._updateChildState);
+      })
+    );
   }
 
   /**
@@ -75,7 +107,9 @@ class FormValidator {
    * @private
    */
   _handleEvents() {
-    const items = makeArray(this._container.querySelectorAll('.form-item'));
+    const items = makeArray(
+      this._container.querySelectorAll('.form-item:not(.is-hide)')
+    );
     items.forEach(item => {
       const tagName = item.tagName.toLowerCase();
       if (tagName === 'input' || tagName === 'textarea') {
@@ -109,7 +143,10 @@ class FormValidator {
 
       // もしvalidate-required属性があり、かつその値がtrueなら
       // つまり必須項目なら
-      if (!isNull(obj['validate-required']) && obj['validate-required'] === 'true') {
+      if (
+        !isNull(obj['validate-required']) &&
+        obj['validate-required'] === 'true'
+      ) {
         isRequired = true;
       }
       // ステートに状態をいれる
@@ -180,7 +217,10 @@ class FormValidator {
    * @private
    */
   _onKeypress(event) {
-    if ((event.which && event.which === 13) || (event.keyCode && event.keyCode === 13)) {
+    if (
+      (event.which && event.which === 13) ||
+      (event.keyCode && event.keyCode === 13)
+    ) {
       event.preventDefault();
       return false;
     }
@@ -335,9 +375,9 @@ class FormValidator {
           this._validateEmailConfirm(target, key, isRequired);
           break;
 
-        case 'email-extra':
-          this._validateExtraEmail(target, key, isRequired);
-          break;
+        // case 'email-extra':
+        //   this._validateExtraEmail(target, key, isRequired);
+        //   break;
 
         case 'num':
           this._validateNumber(target, key, isRequired);
@@ -428,37 +468,37 @@ class FormValidator {
     this._checkAll();
   }
 
-  /**
-   * ファミリーメンバー用のメールバリデーション
-   * @param target
-   * @param key
-   * @param isRequired
-   * @private
-   */
-  _validateExtraEmail(target, key, isRequired) {
-    const value = target.value;
-    const parent = target.parentNode;
-
-    if (isRequired) {
-      if (value.length <= 0) {
-        this._showError(parent, REQUIRED_ERROR);
-        this._hideError(parent, TYPE_ERROR);
-        this._state[key] = false;
-      } else if (value.length <= 0 || !isEmail(value)) {
-        this._showError(parent, TYPE_ERROR);
-        this._hideError(parent, REQUIRED_ERROR);
-        this._state[key] = false;
-      } else {
-        // OK
-        removeClasses(parent, [TYPE_ERROR, REQUIRED_ERROR]);
-        this._state[key] = true;
-      }
-    } else {
-      // メール形式に沿っている、もしくは何も入力されていない。
-      this._state[key] = !!(value.length === 0 || isEmail(value));
-    }
-    this._checkAll();
-  }
+  // /**
+  //  * ファミリーメンバー用のメールバリデーション
+  //  * @param target
+  //  * @param key
+  //  * @param isRequired
+  //  * @private
+  //  */
+  // _validateExtraEmail(target, key, isRequired) {
+  //   const value = target.value;
+  //   const parent = target.parentNode;
+  //
+  //   if (isRequired) {
+  //     if (value.length <= 0) {
+  //       this._showError(parent, REQUIRED_ERROR);
+  //       this._hideError(parent, TYPE_ERROR);
+  //       this._state[key] = false;
+  //     } else if (value.length <= 0 || !isEmail(value)) {
+  //       this._showError(parent, TYPE_ERROR);
+  //       this._hideError(parent, REQUIRED_ERROR);
+  //       this._state[key] = false;
+  //     } else {
+  //       // OK
+  //       removeClasses(parent, [TYPE_ERROR, REQUIRED_ERROR]);
+  //       this._state[key] = true;
+  //     }
+  //   } else {
+  //     // メール形式に沿っている、もしくは何も入力されていない。
+  //     this._state[key] = !!(value.length === 0 || isEmail(value));
+  //   }
+  //   this._checkAll();
+  // }
 
   /**
    * 数字かどうか判定
@@ -700,9 +740,15 @@ class FormValidator {
    * @private
    */
   _makePrefectureData() {
-    makeArray(document.getElementById('prefcode').getElementsByTagName('option')).forEach(o => {
+    makeArray(
+      document.getElementById('prefcode').getElementsByTagName('option')
+    ).forEach(o => {
       this._prefectureData[o.innerHTML] = o;
     });
+  }
+
+  _updateChildState() {
+    console.log('%c_updateChildState');
   }
 }
 

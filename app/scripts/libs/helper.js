@@ -47,7 +47,9 @@ export const removeClass = (element, className, _except) => {
   const defaultClassName = element.className;
   let newClassName = '';
   if (_except || hasClass(element, className)) {
-    newClassName = _trim(defaultClassName.replace(_regClassName(className), ' '));
+    newClassName = _trim(
+      defaultClassName.replace(_regClassName(className), ' ')
+    );
     element.className = newClassName;
   }
 };

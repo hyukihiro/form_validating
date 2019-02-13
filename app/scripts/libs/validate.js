@@ -102,7 +102,11 @@ export const isNumber = str => {
  * isEmail('abc@team-lab.com'); // true;
  */
 export const isEmail = str => {
-  return isString(str) ? /^[a-zA-Z0-9!$&*.=^`|~#%'+\/?_{}-]+@([a-zA-Z0-9_-]+\.)+[a-zA-Z]{2,4}$/.test(str) : false;
+  return isString(str)
+    ? /^[a-zA-Z0-9!$&*.=^`|~#%'+\/?_{}-]+@([a-zA-Z0-9_-]+\.)+[a-zA-Z]{2,4}$/.test(
+        str
+      )
+    : false;
 };
 
 /**
@@ -269,7 +273,10 @@ export const convertToOneByteKana = str => {
   if (str.length === 0) {
     return str;
   }
-  const g = createKanaMap('ガギグゲゴザジズゼゾダヂヅデドバビブベボ', 'ｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾊﾋﾌﾍﾎ');
+  const g = createKanaMap(
+    'ガギグゲゴザジズゼゾダヂヅデドバビブベボ',
+    'ｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾊﾋﾌﾍﾎ'
+  );
 
   const p = createKanaMap('パピプペポ', 'ﾊﾋﾌﾍﾎ');
 
@@ -287,9 +294,15 @@ export const convertToOneByteKana = str => {
     // 濁音もしくは半濁音文字
     if (g.hasOwnProperty(codeAt) || p.hasOwnProperty(codeAt)) {
       if (g[codeAt]) {
-        str = str.replace(char, String.fromCharCode(g[codeAt]) + String.fromCharCode(gMark));
+        str = str.replace(
+          char,
+          String.fromCharCode(g[codeAt]) + String.fromCharCode(gMark)
+        );
       } else if (p[str.charCodeAt(i)]) {
-        str = str.replace(char, String.fromCharCode(p[codeAt]) + String.fromCharCode(pMark));
+        str = str.replace(
+          char,
+          String.fromCharCode(p[codeAt]) + String.fromCharCode(pMark)
+        );
       } else {
         break;
       }
