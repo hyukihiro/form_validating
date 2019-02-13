@@ -9,6 +9,7 @@ import {
 import postalCode from 'japan-postal-code';
 import { addClass, hasClass, removeClass, removeClasses } from '../libs/helper';
 import { isNull } from '../libs/get-type-of';
+import { makeArray } from '../libs/make-array';
 
 const TYPE_ERROR = 'is-error-type';
 const REQUIRED_ERROR = 'is-error-required';
@@ -32,6 +33,7 @@ class FormValidator {
     this._firstNameKana = null;
     this._lastNameKana = null;
     this._extraItems = null;
+    this._prefectureData = {};
 
     this._submitBtn = null;
     this._famiyContents = null;
@@ -65,6 +67,7 @@ class FormValidator {
     this._extraItems = document.querySelectorAll('.family-member');
     this._selectbox.addEventListener('change', this._onSelectChange);
     this._setItems();
+    this._makePrefectureData();
   }
 
   /**
@@ -666,20 +669,33 @@ class FormValidator {
    */
   _fetchAddress(zipcode) {
     postalCode.get(zipcode, address => {
-      console.log(address);
       this._updateAddressByZipCode(address);
     });
   }
 
   /**
    * 住所のエリアに郵便番号から調べた住所を入れる。
+   * 都道府県のセレクトボックスを更新する
    * @param result
    * @private
    */
   _updateAddressByZipCode(result) {
-    const value = `${result.prefecture}${result.city}${result.area}`;
+    const pref = result.prefecture;
+    const value = `${result.city}${result.area}`;
+    // 都道府県のセレクトボックスを更新する
+    this._prefectureData[pref].selected = true;
     this._addresField.value = value;
     this._validateRequired(this._addresField, 'address1', true);
+  }
+
+  /**
+   * 都道府県を選択するセレクトボックスからオブジェクトを取得
+   * @private
+   */
+  _makePrefectureData() {
+    makeArray(document.getElementById('prefcode').getElementsByTagName('option')).forEach(o => {
+      this._prefectureData[o.innerHTML] = o;
+    });
   }
 }
 

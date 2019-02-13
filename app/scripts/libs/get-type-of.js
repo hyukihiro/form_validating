@@ -12,3 +12,4 @@ export const isNull = value => value === null;
 export const isArray = value => Array.isArray(value);
 export const isFunction = func => typeof func === 'function';
 export const isObject = obj => obj === Object(obj);
+export const isNumber = num => typeof num === typeof 1 && num !== null && isFinite(num);
