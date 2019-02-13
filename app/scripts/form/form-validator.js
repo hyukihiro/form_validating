@@ -22,7 +22,6 @@ class FormValidator {
     this._maxStatus = 0;
     this._timer = -1;
 
-    this._items = null;
     this._postcode0 = null;
     this._postcode1 = null;
     this._addresField = null;
@@ -66,8 +65,25 @@ class FormValidator {
     this._famiyContents = document.getElementById('js-family-wrap');
     this._extraItems = document.querySelectorAll('.family-member');
     this._selectbox.addEventListener('change', this._onSelectChange);
+    this._handleEvents();
     this._setItems();
     this._makePrefectureData();
+  }
+
+  /**
+   * インプット要素にイベント購読させる
+   * @private
+   */
+  _handleEvents() {
+    const items = makeArray(this._container.querySelectorAll('.form-item'));
+    items.forEach(item => {
+      const tagName = item.tagName.toLowerCase();
+      if (tagName === 'input' || tagName === 'textarea') {
+        item.addEventListener('blur', this._onBlur);
+        item.addEventListener('keydown', this._onKeydown);
+        item.addEventListener('keypress', this._onKeypress);
+      }
+    });
   }
 
   /**
@@ -76,9 +92,9 @@ class FormValidator {
    */
   async _setItems() {
     console.log('_setItems');
-    this._items = this._container.querySelectorAll('.form-item:not(.is-hide)');
-    this._maxStatus = this._items.length;
-    this._items.forEach(item => {
+    const items = this._container.querySelectorAll('.form-item:not(.is-hide)');
+    this._maxStatus = items.length;
+    items.forEach(item => {
       let obj = {};
       // もし'data-json'というデータ属性があれば
       if (item.hasAttribute('data-json')) {
@@ -89,8 +105,6 @@ class FormValidator {
 
       // 項目の識別値
       const key = obj['data-name'];
-      const tagName = item.tagName.toLowerCase();
-
       let isRequired = false;
 
       // もしvalidate-required属性があり、かつその値がtrueなら
@@ -101,13 +115,6 @@ class FormValidator {
       // ステートに状態をいれる
       // 必須項目でないものはtrueをいれる。（必須項目でないものはもう入力済み状態にする）
       this._state[key] = !isRequired;
-
-      // イベント登録
-      if (tagName === 'input' || tagName === 'textarea') {
-        item.addEventListener('blur', this._onBlur);
-        item.addEventListener('keydown', this._onKeydown);
-        item.addEventListener('keypress', this._onKeypress);
-      }
 
       switch (key) {
         case 'name_sei':
