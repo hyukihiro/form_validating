@@ -577,13 +577,11 @@ class FormValidator {
   async _checkAll() {
     this._maxStatus = Object.keys(this._state).length;
     let counter = 0;
-
-    Object.values(this._state).forEach(state => {
-      if (state) {
+    Object.keys(this._state).forEach(key => {
+      if (this._state[key]) {
         counter++;
       }
     });
-
     this._changeSubmitState(!!(counter === this._maxStatus));
   }
 
@@ -640,7 +638,7 @@ class FormValidator {
    * @private
    */
   _changeSubmitState(enabled) {
-    console.table(this._state);
+    // console.table(this._state);
     if (enabled) {
       addClass(this._submitBtn, this._classStates.btnEnable);
     } else {
