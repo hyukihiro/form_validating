@@ -226,6 +226,7 @@
     "webpack-merge": "^4.1.4"
   },
   "dependencies": {
+    "japan-postal-code": "^0.2.0",
     "ress": "^1.2.2"
   }
 }

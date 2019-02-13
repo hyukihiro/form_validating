@@ -1,4 +1,3 @@
-import axios from 'axios';
 import {
   isKatakana,
   hasNumberChar,
@@ -7,10 +6,9 @@ import {
   isSingleByteNumber,
   isTelephoneNumber
 } from '../libs/validate';
+import postalCode from 'japan-postal-code';
 import { addClass, hasClass, removeClass, removeClasses } from '../libs/helper';
 import { isNull } from '../libs/get-type-of';
-import * as APIAction from '../actions/api-action';
-import { apiRequest } from '../api/api';
 
 const TYPE_ERROR = 'is-error-type';
 const REQUIRED_ERROR = 'is-error-required';
@@ -268,6 +266,12 @@ class FormValidator {
     });
   }
 
+  /**
+   * 付与されているクラスを削除
+   * @param elems
+   * @return {Promise<void>}
+   * @private
+   */
   async _removeClasses(elems) {
     console.log('_removeClasses');
     elems.forEach(e => {
@@ -510,6 +514,13 @@ class FormValidator {
     this._checkAll();
   }
 
+  /**
+   * 電話番号バリデーション
+   * @param target
+   * @param key
+   * @param isRequired
+   * @private
+   */
   _validateTel(target, key, isRequired) {
     const value = target.value;
     const parent = target.parentNode.parentNode;
@@ -651,24 +662,14 @@ class FormValidator {
   }
 
   /**
-   * 入力された郵便番号を元に外部API叩く
+   * 入力された郵便番号を元に郵便番号検索
    * @param zipcode
    * @private
    */
   _fetchAddress(zipcode) {
-    const action = APIAction.loadAddressByZip({
-      zipcode: zipcode
-    }).action;
-    apiRequest(action, payload => {
-      const { data } = payload;
-      const { response } = data;
-      const { status } = response;
-      const { results } = response;
-      if (status === 200 && !isNull(results)) {
-        this._updateAddressByZipCode(results[0]);
-      } else {
-        console.log('log');
-      }
+    postalCode.get(zipcode, address => {
+      console.log(address);
+      this._updateAddressByZipCode(address);
     });
   }
 
@@ -678,9 +679,9 @@ class FormValidator {
    * @private
    */
   _updateAddressByZipCode(result) {
-    const value = `${result.address1}${result.address2}${result.address3}`;
+    const value = `${result.prefecture}${result.city}${result.area}`;
     this._addresField.value = value;
-    this._validateRequired(document.getElementById('address1'), 'address1', true);
+    this._validateRequired(this._addresField, 'address1', true);
   }
 }
 
